@@ -1,0 +1,66 @@
+<div class="container">
+  <div class="header">
+    <h2>Planificaciones</h2>
+
+    <!-- Botón para crear nueva planificación -->
+    <button
+      mat-fab
+      color="primary"
+      [routerLink]="'/home/planificaciones/crear'"
+      aria-label="Crear planificación"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+
+  <!-- Tabla de planificaciones -->
+  <table mat-table [dataSource]="planificaciones" class="mat-elevation-z8">
+    <!-- Objetivo -->
+    <ng-container matColumnDef="objetivo">
+      <th mat-header-cell *matHeaderCellDef>Objetivo</th>
+      <td mat-cell *matCellDef="let planificacion">
+        {{ planificacion.objetivo }}
+      </td>
+    </ng-container>
+
+    <!-- Duración -->
+    <ng-container matColumnDef="duracionSemanas">
+      <th mat-header-cell *matHeaderCellDef>Duración (semanas)</th>
+      <td mat-cell *matCellDef="let planificacion">
+        {{ planificacion.duracionSemanas }}
+      </td>
+    </ng-container>
+
+    <!-- Semana del Año -->
+    <ng-container matColumnDef="semanaDelAnio">
+      <th mat-header-cell *matHeaderCellDef>Semana del Año</th>
+      <td mat-cell *matCellDef="let planificacion">
+        {{ planificacion.semanaDelAnio }}
+      </td>
+    </ng-container>
+
+    <!-- Ejercicios -->
+    <ng-container matColumnDef="ejercicios">
+      <th mat-header-cell *matHeaderCellDef>Ejercicios</th>
+      <td mat-cell *matCellDef="let planificacion">
+        {{ getEjerciciosNames(planificacion.ejercicios) }}
+      </td>
+    </ng-container>
+
+    <!-- Acciones -->
+    <ng-container matColumnDef="acciones">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <td mat-cell *matCellDef="let planificacion">
+        <button mat-icon-button color="accent">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>
