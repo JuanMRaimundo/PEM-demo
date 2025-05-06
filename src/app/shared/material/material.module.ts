@@ -21,6 +21,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatMenuModule } from '@angular/material/menu';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   exports: [
@@ -46,6 +47,7 @@ import { MatMenuModule } from '@angular/material/menu';
     MatTableModule,
     MatNativeDateModule,
     MatMenuModule,
+    ReactiveFormsModule,
   ],
 })
 export class MaterialModule {}

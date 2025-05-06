@@ -6,7 +6,7 @@
     <button
       mat-fab
       color="primary"
-      [routerLink]="'/home/planificaciones/crear'"
+      (click)="openDialog()"
       aria-label="Crear planificación"
     >
       <mat-icon>add</mat-icon>
@@ -24,18 +24,10 @@
     </ng-container>
 
     <!-- Duración -->
-    <ng-container matColumnDef="duracionSemanas">
-      <th mat-header-cell *matHeaderCellDef>Duración (semanas)</th>
+    <ng-container matColumnDef="duracion">
+      <th mat-header-cell *matHeaderCellDef>Duración</th>
       <td mat-cell *matCellDef="let planificacion">
-        {{ planificacion.duracionSemanas }}
-      </td>
-    </ng-container>
-
-    <!-- Semana del Año -->
-    <ng-container matColumnDef="semanaDelAnio">
-      <th mat-header-cell *matHeaderCellDef>Semana del Año</th>
-      <td mat-cell *matCellDef="let planificacion">
-        {{ planificacion.semanaDelAnio }}
+        {{ planificacion.duracion }}
       </td>
     </ng-container>
 
