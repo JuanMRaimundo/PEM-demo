@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../../shared/material/material.module';
 import { Planificacion } from '../../models/planificacion';
-import { Ejercicios } from '../../models/interfaces';
+import { Ejercicio } from '../../models/interfaces';
 import {
   DialogConfig,
   GenericDialogComponent,
@@ -18,11 +18,11 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrl: './planificaciones.component.css',
 })
 export class PlanificacionesComponent {
-  ejerciciosDisponibles: Ejercicios[] = [
-    { id: 1, nombre: 'Sentadillas', volumen: 'x' },
-    { id: 2, nombre: 'Peso Muerto', volumen: 'x' },
-    { id: 3, nombre: 'Press banca', volumen: 'x' },
-    { id: 4, nombre: 'Pantorrilas', volumen: 'x' },
+  ejerciciosDisponibles: Ejercicio[] = [
+    { id: 1, nombre: 'Sentadillas', grupoMuscular: 'Cuádriceps' },
+    { id: 2, nombre: 'Peso Muerto', grupoMuscular: 'Isquiosurales' },
+    { id: 3, nombre: 'Press banca', grupoMuscular: 'Pecho' },
+    { id: 4, nombre: 'Pantorrilas', grupoMuscular: 'Pantorrillas' },
   ];
 
   constructor(private dialog: MatDialog) {}
@@ -38,14 +38,14 @@ export class PlanificacionesComponent {
           nombre: 'Sentadillas',
           descripcion: '4 series de 8 repeticiones',
           grupoMuscular: 'Piernas',
-          dificultad: 'Media',
+          dificultad: 'Intermedio',
         },
         {
           id: 2,
           nombre: 'Peso muerto',
           descripcion: '4 series de 10 repeticiones',
           grupoMuscular: 'MMII',
-          dificultad: 'Media',
+          dificultad: 'Intermedio',
         },
       ],
       fechaCreacion: new Date('2024-06-01'),
@@ -60,7 +60,7 @@ export class PlanificacionesComponent {
   ];
 
   // Método para mostrar los ejercicios como string
-  getEjerciciosNames(ejercicios: Ejercicios[]): string {
+  getEjerciciosNames(ejercicios: Ejercicio[]): string {
     return ejercicios.map((e) => e.nombre).join(', ');
   }
   openDialog(): void {

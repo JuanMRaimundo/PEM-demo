@@ -1,4 +1,4 @@
-import { Ejercicio } from './ejercicio';
+import { Ejercicio } from './interfaces';
 
 export interface Planificacion {
   id: number;

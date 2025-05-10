@@ -1,0 +1,52 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <div class="header">
+    <h2>Catálogo de Ejercicios</h2>
+    <button mat-raised-button color="primary" (click)="openDialog()">
+      <mat-icon>add</mat-icon>
+      Nuevo Ejercicio
+    </button>
+  </div>
+
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <!-- Nombre -->
+    <ng-container matColumnDef="nombre">
+      <th mat-header-cell *matHeaderCellDef>Nombre</th>
+      <td mat-cell *matCellDef="let ej">{{ ej.nombre }}</td>
+    </ng-container>
+
+    <!-- Grupo Muscular -->
+    <ng-container matColumnDef="grupoMuscular">
+      <th mat-header-cell *matHeaderCellDef>Grupo Muscular</th>
+      <td mat-cell *matCellDef="let ej">{{ ej.grupoMuscular }}</td>
+    </ng-container>
+
+    <!-- Dificultad -->
+    <ng-container matColumnDef="dificultad">
+      <th mat-header-cell *matHeaderCellDef>Dificultad</th>
+      <td mat-cell *matCellDef="let ej">
+        <mat-chip-listbox>
+          <mat-chip [color]="getDificultadColor(ej.dificultad)" selected>
+            {{ ej.dificultad || "Sin clasificar" }}
+          </mat-chip>
+        </mat-chip-listbox>
+      </td>
+    </ng-container>
+
+    <!-- Acciones -->
+    <ng-container matColumnDef="acciones">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <td mat-cell *matCellDef="let ej">
+        <button mat-icon-button color="accent" (click)="openDialog(ej)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="onDelete(ej.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>
