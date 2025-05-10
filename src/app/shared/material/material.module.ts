@@ -22,6 +22,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatMenuModule } from '@angular/material/menu';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   exports: [
@@ -48,6 +49,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatNativeDateModule,
     MatMenuModule,
     ReactiveFormsModule,
+    MatChipsModule,
   ],
 })
 export class MaterialModule {}

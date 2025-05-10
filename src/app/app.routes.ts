@@ -4,7 +4,8 @@ import { HomeComponent } from './pages/home/home.component';
 import { PlanificacionesComponent } from './components/planificaciones/planificaciones.component';
 import { PerfilComponent } from './components/perfil/perfil.component';
 import { ConfiguracionComponent } from './components/configuracion/configuracion.component';
-import { EjerciciosComponent } from './components/ejercicios/ejercicios.component';
+import { AtletasListComponent } from './pages/atletas/atletas-list/atletas-list.component';
+import { EjerciciosListComponent } from './pages/ejercicios/ejercicios-list/ejercicios-list.component';
 
 export const routes: Routes = [
   {
@@ -16,10 +17,14 @@ export const routes: Routes = [
     component: HomeComponent,
     children: [
       { path: 'planificaciones', component: PlanificacionesComponent },
-      { path: 'ejercicios', component: EjerciciosComponent },
       { path: 'perfil', component: PerfilComponent },
       { path: 'configuracion', component: ConfiguracionComponent },
     ],
+  },
+  { path: 'atletas', component: AtletasListComponent },
+  {
+    path: 'ejercicios',
+    component: EjerciciosListComponent,
   },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
 ];

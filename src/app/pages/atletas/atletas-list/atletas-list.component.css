@@ -8,11 +8,3 @@
   align-items: center;
   margin-bottom: 20px;
 }
-
-mat-table {
-  width: 100%;
-}
-
-mat-fab-button {
-  margin-left: auto;
-}

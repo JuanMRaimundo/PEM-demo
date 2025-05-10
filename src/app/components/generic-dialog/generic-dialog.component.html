@@ -21,8 +21,11 @@
           [formControlName]="field.name"
           [multiple]="field.type === 'multiselect'"
         >
-          <mat-option *ngFor="let option of field.options" [value]="option">
-            {{ option[field.optionLabel || "name"] }}
+          <mat-option
+            *ngFor="let option of field.options"
+            [value]="field.optionLabel ? option[field.optionLabel] : option"
+          >
+            {{ field.optionLabel ? option[field.optionLabel] : option }}
           </mat-option>
         </mat-select>
       </mat-form-field>
