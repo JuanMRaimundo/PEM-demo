@@ -53,3 +53,11 @@ export interface DialogField {
   options?: any[];
   optionLabel?: string;
 }
+
+export interface FilterConfig {
+  key: string;
+  label: string;
+  type: 'text' | 'select' | 'date' | 'number';
+  options?: any[];
+  optionLabel?: string;
+}

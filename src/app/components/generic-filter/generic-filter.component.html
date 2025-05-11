@@ -1,0 +1,44 @@
+<div class="filter-container">
+  <form [formGroup]="filterForm" class="filter-form">
+    <div *ngFor="let config of filterConfig" class="filter-field">
+      <!-- Inputs de Texto/Número -->
+      <mat-form-field
+        *ngIf="config.type === 'text' || config.type === 'number'"
+      >
+        <mat-label>{{ config.label }}</mat-label>
+        <input
+          matInput
+          [type]="config.type"
+          [formControlName]="config.key"
+          [placeholder]="config.label"
+        />
+      </mat-form-field>
+
+      <!-- Selectores -->
+      <mat-form-field *ngIf="config.type === 'select'">
+        <mat-label>{{ config.label }}</mat-label>
+        <mat-select [formControlName]="config.key">
+          <mat-option value="">Todos</mat-option>
+          <mat-option
+            *ngFor="let option of config.options"
+            [value]="config.optionLabel ? option[config.optionLabel] : option"
+          >
+            {{ config.optionLabel ? option[config.optionLabel] : option }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </form>
+
+  <div class="filter-actions">
+    <button
+      mat-stroked-button
+      color="warn"
+      (click)="clearFilters()"
+      [disabled]="!filterForm.dirty"
+    >
+      <mat-icon>clear_all</mat-icon>
+      Limpiar Filtros
+    </button>
+  </div>
+</div>
