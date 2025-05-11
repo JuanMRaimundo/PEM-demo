@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import {
   DialogConfig,
   DialogField,
   Dificultad,
   Ejercicio,
+  FilterConfig,
 } from '../../../models/interfaces';
 import { EjercicioService } from '../../../services/ejercicios.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,11 +12,21 @@ import { GenericDialogComponent } from '../../../components/generic-dialog/gener
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../../../shared/material/material.module';
 import { NavbarComponent } from '../../../components/navbar/navbar.component';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { GenericFilterComponent } from '../../../components/generic-filter/generic-filter.component';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-ejercicios-list',
   standalone: true,
-  imports: [CommonModule, MaterialModule, NavbarComponent],
+  imports: [
+    CommonModule,
+    MaterialModule,
+    NavbarComponent,
+    MatPaginatorModule,
+    MatTableModule,
+    GenericFilterComponent,
+  ],
   templateUrl: './ejercicios-list.component.html',
   styleUrl: './ejercicios-list.component.css',
 })
@@ -26,20 +37,23 @@ export class EjerciciosListComponent {
     'dificultad',
     'acciones',
   ];
-  dataSource: Ejercicio[] = [];
+  dataSource = new MatTableDataSource<Ejercicio>([]);
   dialogFields!: DialogField[];
+  filterConfig!: FilterConfig[];
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   constructor(
     public dialog: MatDialog,
     private ejercicioService: EjercicioService
   ) {
+    this.initializeFilterConfig();
     this.initializeDialogFields();
     this.loadEjercicios();
+    this.configureFilter();
   }
 
   private loadEjercicios(): void {
-    this.dataSource = this.ejercicioService.getAll();
+    this.dataSource.data = this.ejercicioService.getAll();
   }
-
   private initializeDialogFields(): void {
     this.dialogFields = [
       { name: 'nombre', label: 'Nombre', type: 'text', required: true },
@@ -60,6 +74,27 @@ export class EjerciciosListComponent {
     ];
   }
 
+  private initializeFilterConfig(): void {
+    this.filterConfig = [
+      {
+        key: 'nombre',
+        label: 'Buscar por nombre',
+        type: 'text',
+      },
+      {
+        key: 'grupoMuscular',
+        label: 'Grupo Muscular',
+        type: 'select',
+        options: this.ejercicioService.getGruposMusculares(), // Ahora sí disponible
+      },
+      {
+        key: 'dificultad',
+        label: 'Dificultad',
+        type: 'select',
+        options: ['Principiante', 'Intermedio', 'Avanzado'],
+      },
+    ];
+  }
   openDialog(ejercicio?: Ejercicio): void {
     const dialogConfig: DialogConfig = {
       title: ejercicio ? 'Editar Ejercicio' : 'Nuevo Ejercicio',
@@ -97,5 +132,27 @@ export class EjerciciosListComponent {
       default:
         return '';
     }
+  }
+  onFilterChange(filters: any): void {
+    // Aplicar los filtros a tu dataSource
+    this.dataSource.filter = JSON.stringify(filters);
+  }
+  private configureFilter(): void {
+    this.dataSource.filterPredicate = (data: Ejercicio, filter: string) => {
+      const filters = JSON.parse(filter);
+      return Object.keys(filters).every((key: string) => {
+        const validKey = key as keyof Ejercicio;
+        if (!(validKey in data)) return false;
+
+        const filterValue = filters[validKey]?.toString().toLowerCase();
+        if (!filterValue) return true;
+
+        const dataValue = data[validKey]?.toString().toLowerCase();
+        return dataValue?.includes(filterValue);
+      });
+    };
+  }
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
   }
 }
