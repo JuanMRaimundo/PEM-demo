@@ -1,52 +1,48 @@
+<app-navbar></app-navbar>
 <div class="container">
   <div class="header">
     <h2>Planificaciones</h2>
-
-    <!-- Botón para crear nueva planificación -->
-    <button
-      mat-fab
-      color="primary"
-      (click)="openDialog()"
-      aria-label="Crear planificación"
-    >
+    <button mat-raised-button color="primary" (click)="openDialog()">
       <mat-icon>add</mat-icon>
+      Nueva Planificación
     </button>
   </div>
 
-  <!-- Tabla de planificaciones -->
-  <table mat-table [dataSource]="planificaciones" class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <!-- Nombre -->
+    <ng-container matColumnDef="nombre">
+      <th mat-header-cell *matHeaderCellDef>Nombre</th>
+      <td mat-cell *matCellDef="let plan">{{ plan.nombre }}</td>
+    </ng-container>
+
     <!-- Objetivo -->
     <ng-container matColumnDef="objetivo">
       <th mat-header-cell *matHeaderCellDef>Objetivo</th>
-      <td mat-cell *matCellDef="let planificacion">
-        {{ planificacion.objetivo }}
-      </td>
+      <td mat-cell *matCellDef="let plan">{{ plan.objetivo }}</td>
     </ng-container>
 
     <!-- Duración -->
     <ng-container matColumnDef="duracion">
       <th mat-header-cell *matHeaderCellDef>Duración</th>
-      <td mat-cell *matCellDef="let planificacion">
-        {{ planificacion.duracion }}
-      </td>
+      <td mat-cell *matCellDef="let plan">{{ plan.duracion }} semanas</td>
     </ng-container>
 
     <!-- Ejercicios -->
     <ng-container matColumnDef="ejercicios">
       <th mat-header-cell *matHeaderCellDef>Ejercicios</th>
-      <td mat-cell *matCellDef="let planificacion">
-        {{ getEjerciciosNames(planificacion.ejercicios) }}
+      <td mat-cell *matCellDef="let plan">
+        {{ getEjerciciosNames(plan.ejercicios) }}
       </td>
     </ng-container>
 
     <!-- Acciones -->
     <ng-container matColumnDef="acciones">
       <th mat-header-cell *matHeaderCellDef>Acciones</th>
-      <td mat-cell *matCellDef="let planificacion">
-        <button mat-icon-button color="accent">
+      <td mat-cell *matCellDef="let plan">
+        <button mat-icon-button color="accent" (click)="openDialog(plan)">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button color="warn">
+        <button mat-icon-button color="warn" (click)="onDelete(plan.id)">
           <mat-icon>delete</mat-icon>
         </button>
       </td>

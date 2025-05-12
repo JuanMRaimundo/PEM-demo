@@ -11,20 +11,25 @@ export interface Atleta {
   actualizadoEn?: Date;
 }
 
-export interface PlanificacionGral {
+export interface Planificacion {
   id: number;
+  nombre: string;
   objetivo: string;
-  duracionSemanas: number;
-  semanaDelAnio: number;
-  ejercicios: [];
+  duracion: number; // en semanas
+  ejercicios: Ejercicio[];
   fechaCreacion: Date;
+  // Para futura implementación
+  series?: number;
+  repeticiones?: string;
+  descanso?: string;
 }
 
-export interface PlanificacionDiaria {
-  id: number;
-  turno: 'MAÑANA' | 'TARDE';
-  activacion: Activacion;
-  ejercicios: Ejercicio;
+export interface EjercicioPlanificado extends Ejercicio {
+  parametros?: {
+    series: number;
+    repeticiones: string;
+    carga: number;
+  };
 }
 
 export interface Activacion {}

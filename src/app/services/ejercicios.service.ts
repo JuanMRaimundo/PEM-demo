@@ -34,11 +34,21 @@ export class EjercicioService {
   }
 
   delete(id: number): void {
-    this.ejercicios = this.ejercicios.filter((e) => e.id !== id);
+    const ejercicio = this.ejercicios.find((e) => e.id == id);
+    if (!ejercicio) {
+      throw new Error(`Ejercicio con ID ${id} no encontrado`);
+    }
   }
 
   getAll(): Ejercicio[] {
     return [...this.ejercicios];
+  }
+  getEjercicioById(id: number): Ejercicio {
+    const ejercicio = this.ejercicios.find((e) => e.id == id);
+    if (!ejercicio) {
+      throw new Error(`Ejercicio con ID ${id} no encontrado`);
+    }
+    return ejercicio;
   }
 
   getGruposMusculares(): string[] {
