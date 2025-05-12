@@ -1,47 +1,51 @@
 import { Injectable } from '@angular/core';
-import { Planificacion } from '../models/planificacion';
-import { Ejercicio } from '../models/ejercicio';
-import { HttpClient } from '@angular/common/http'; // Para luego conectar con API
-import { Observable, of } from 'rxjs';
+import { Planificacion } from '../models/interfaces';
+import { EjercicioService } from './ejercicios.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PlanificacionService {
   private apiUrl = 'https://tu-api.com/planificaciones'; // Cambiar por tu endpoint real
+  private planificaciones: Planificacion[] = [];
+  private ultimoId = 0;
 
-  // Mock temporal hasta tener la API
-  private ejerciciosMock: Ejercicio[] = [
-    {
-      id: 1,
-      nombre: 'Sentadillas',
-      descripcion: '...',
-      grupoMuscular: 'Piernas',
-      dificultad: 'Media',
-    },
-    {
-      id: 2,
-      nombre: 'Peso muerto',
-      descripcion: '...',
-      grupoMuscular: 'MMII',
-      dificultad: 'Media',
-    },
-  ];
+  constructor(private ejercicioService: EjercicioService) {}
 
-  constructor(private http: HttpClient) {}
-
-  getPlanificaciones(): Observable<Planificacion[]> {
-    // return this.http.get<Planificacion[]>(this.apiUrl);
-    return of([]); // Mock temporal
+  getAll(): Planificacion[] {
+    return this.planificaciones.map((p) => ({
+      ...p,
+      ejercicios: p.ejercicios.map(
+        (ej) => this.ejercicioService.getEjercicioById(ej.id) || ej
+      ),
+    }));
   }
 
-  addPlanificacion(planificacion: Planificacion): Observable<Planificacion> {
-    // return this.http.post<Planificacion>(this.apiUrl, planificacion);
-    return of(planificacion); // Mock temporal
+  create(
+    planificacion: Omit<Planificacion, 'id' | 'fechaCreacion'>
+  ): Planificacion {
+    const nuevaPlanificacion: Planificacion = {
+      id: ++this.ultimoId,
+      ...planificacion,
+      fechaCreacion: new Date(),
+    };
+    this.planificaciones.push(nuevaPlanificacion);
+    return nuevaPlanificacion;
   }
 
-  getEjercicios(): Observable<Ejercicio[]> {
-    // return this.http.get<Ejercicio[]>(`${this.apiUrl}/ejercicios`);
-    return of(this.ejerciciosMock); // Mock temporal
+  update(id: number, datos: Partial<Planificacion>): Planificacion | null {
+    const index = this.planificaciones.findIndex((p) => p.id === id);
+    if (index === -1) return null;
+
+    this.planificaciones[index] = {
+      ...this.planificaciones[index],
+      ...datos,
+    };
+
+    return this.planificaciones[index];
+  }
+
+  delete(id: number): void {
+    this.planificaciones = this.planificaciones.filter((p) => p.id !== id);
   }
 }
