@@ -11,17 +11,17 @@ export class AtletaService {
 
   constructor() {}
 
-  private createAtleta(atleta: Partial<Atleta>): Atleta {
-    const nuevoAtleta: Atleta = {
-      id: ++this.ultimoId,
-      creadoEn: new Date(),
+  createAtleta(atleta: Omit<Atleta, 'id'>): Atleta {
+    const nuevo: Atleta = {
+      id: Date.now(),
       ...atleta,
-    } as Atleta;
-    this.atletas.push(nuevoAtleta);
-    return nuevoAtleta;
+      creadoEn: new Date(),
+    };
+    this.atletas.push(nuevo);
+    return nuevo;
   }
 
-  saveAtleta(atleta: Partial<Atleta>): Atleta {
+  saveAtleta(atleta: any): Atleta {
     if (atleta.id) {
       return this.updateAtleta(atleta.id, atleta);
     } else {
