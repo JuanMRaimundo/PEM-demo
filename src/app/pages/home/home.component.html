@@ -1,2 +1,117 @@
 <app-navbar></app-navbar>
-<router-outlet></router-outlet>
+<!-- home.component.html -->
+<div class="dashboard-container">
+  <!-- Sección de Bienvenida -->
+  <div class="welcome-section mat-elevation-z2">
+    <div class="welcome-content">
+      <h1>¡Bienvenido de vuelta, [Usuario]!</h1>
+      <p>Último acceso: {{ ultimoAcceso | date : "medium" }}</p>
+    </div>
+    <mat-icon class="welcome-icon">fitness_center</mat-icon>
+  </div>
+
+  <!-- Cards de Resumen -->
+  <div class="summary-cards">
+    <!-- Card de Planificaciones -->
+    <mat-card class="summary-card">
+      <mat-card-header>
+        <mat-card-title>Planificaciones Activas</mat-card-title>
+        <mat-icon mat-card-avatar>calendar_today</mat-icon>
+      </mat-card-header>
+      <mat-card-content>
+        <h2>{{ planificacionesActivas }}</h2>
+        <p>En curso esta semana</p>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Card de Atletas -->
+    <mat-card class="summary-card">
+      <mat-card-header>
+        <mat-card-title>Atletas Registrados</mat-card-title>
+        <mat-icon mat-card-avatar>people</mat-icon>
+      </mat-card-header>
+      <mat-card-content>
+        <h2>{{ totalAtletas }}</h2>
+        <p>Activos esta semana: {{ atletasActivos }}</p>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Card de Ejercicios -->
+    <mat-card class="summary-card">
+      <mat-card-header>
+        <mat-card-title>Ejercicios Disponibles</mat-card-title>
+        <mat-icon mat-card-avatar>list</mat-icon>
+      </mat-card-header>
+      <mat-card-content>
+        <h2>{{ totalEjercicios }}</h2>
+        <p>Nuevos este mes: {{ nuevosEjercicios }}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Últimas Planificaciones -->
+  <mat-card class="section-card">
+    <mat-card-header>
+      <mat-card-title>Próximas Planificaciones</mat-card-title>
+      <button mat-icon-button>
+        <mat-icon>more_vert</mat-icon>
+      </button>
+    </mat-card-header>
+    <mat-card-content>
+      <div
+        class="planificacion-item"
+        *ngFor="let plan of ultimasPlanificaciones"
+      >
+        <div class="planificacion-info">
+          <h3>{{ plan.nombre }}</h3>
+          <p>{{ plan.objetivo }}</p>
+          <div class="planificacion-meta">
+            <mat-chip>
+              <mat-icon>calendar_today</mat-icon>
+              {{ plan.fecha | date : "shortDate" }}
+            </mat-chip>
+            <mat-chip>
+              <mat-icon>timer</mat-icon>
+              {{ plan.duracion }} semanas
+            </mat-chip>
+          </div>
+        </div>
+        <button mat-flat-button color="primary">
+          <mat-icon>visibility</mat-icon>
+          Ver Detalle
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Acciones Rápidas -->
+  <div class="quick-actions">
+    <button
+      mat-flat-button
+      color="primary"
+      class="action-button"
+      (click)="openPlanificacionDialog()"
+    >
+      <mat-icon>add</mat-icon>
+      Nueva Planificación
+    </button>
+    <button
+      mat-flat-button
+      color="accent"
+      class="action-button"
+      (click)="openAtletaDialog()"
+    >
+      <mat-icon>person_add</mat-icon>
+      Agregar Atleta
+    </button>
+    <button
+      mat-flat-button
+      color="warn"
+      class="action-button"
+      (click)="openEjercicioDialog()"
+    >
+      <mat-icon>note_add</mat-icon>
+      Crear Ejercicio
+    </button>
+  </div>
+</div>
